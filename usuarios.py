@@ -1,73 +1,99 @@
-def usuarios(voltar):
-    while True:
+lista_usuarios = []
+while True:
         print("===================================")
-        print("         MENU USUARIOS             ")
+        print("         MENU DE USUÁRIOS             ")
         print("===================================")
-        print("1. Cadastrar novo usuário")
-        print("2. Listar usuários")
-        print("3. Ativar/Inativar usuário")
-        print("4. Voltar")
+        print("1. Cadastrar novo usuario")
+        print("2. Listar usuarios")
+        print("3. Ativar/Inativar usuario")
+        print("4. Voltar ao menu principal")
+        print("===================================")
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
-            cadastrar_novo_usuário()
+            cadastrar_novo_usuario()
         elif opcao == "2":
-            listar_usuários()
+            listar_usuarios()
         elif opcao == "3":
-           ativar_inativar_usuário()
+           ativar_inativar_usuario()
         elif opcao == "4":
-           return voltar
+            return voltar
         else:
             print("Opção inválida. Tente novamente.")
 
 
-lista_usuarios = []
 
-def cadastrar_novo_usuário():
+        def cadastrar_novo_usuario():
     
-    while True:
-        print("----------------------- CRIAR USUÁRIO ----------------------------")
+           while True:
+            print("\n----------------------- CADASTRAR NOVO USUÁRIO ----------------------------")
 
-        nome = input("Nome Completo: ")
-        login = input("login: ")
-        status = input("Ativo ou Inativo: ")
+        nome = input("Nome Completo:").strip()
+        login = input("login: ").strip()
+        
+        # Verifica se o login já existe
+        if any(usuario[ "Login"] == login for usuario in lista_usuarios):
+            print("Esse Login já está cadrastado. Tente outro.")
+            continue
+        
+        status = input("Ativo/Inativo: ").strip().capitalize()
+        if status not in ["Ativo", "Inativo"]:
+            print("Status inválido. Por favor, digite 'Ativo' ou 'Inativo'.")
+            continue
         
        
         
         usuario = {
             "Nome": nome,
             "Login": login,
-            "status": status,
+            "Status": status
             
         }
 
         # Adicionar na lista de alunos
         lista_usuarios.append(usuario)
-        print("Usuário criado com sucesso!!")
+        print("Usuário cadrastado com sucesso!!")
 
-        continuacao = input("Quer cadastrar um novo usuário? (s/n): ").lower()
-        if continuacao == "n":
-            return 
+        continuar = input("Deseja cadastrar um novo usuário? (s/n): ").lower()
+        if continuar !=  "s":
+            break
            
+# =================== LISTAR USUÁRIOS ===================
 
-
-def listar_usuários():
-    if not lista_usuarios:
-        print("Nenhum usuário cadastrado.")
-        return
-
+def listar_usuarios():
+    print("\n----------------------- LISTAR USUÁRIOS ----------------------------")
+   
+   
     print("----------------------- LISTA DE USUÁRIOS ----------------------------")
     for i, usuario in enumerate(lista_usuarios, start=1):
-        print(f"{i}. {usuario['Nome']} - {usuario['Login']} - {usuario['status']}")
+        print(f"{i}. Nome. {usuario['Nome']} | login: {usuario['Login']} | status: {usuario['status']}")
+        print("------------------------------------------------------------------")
 
 
-def ativar_inativar_usuário(indice):
 
     print("----------------------- ATIVAR/INATIVAR USUÁRIO ----------------------------")
+    def ativar_inativar_usuario():
+     listar_usuarios = ():
+
+    if not lista_usuarios:
+        return
     
-    Nome = input("Digite o nome do usuário que deseja ativar/inativar (ou digite 'voltar' para sair): ")
-    usuario = ativar_inativar_usuário [indice]
-    print(f"Status: {usuario['usuario']}")
-    status_do_usuario = input("status ativo/inativo (deixe em branco para manter): ") or usuario.get('status', '')
-status = input("status (deixe em branco para manter): ") or ativar_inativar_usuário.get('descricao', '')
- 
+    login = input("\n Digite o login do usuário para alterar o status (ou digite 'voltar' para cancelar): ").strip()
+    if login.lower() == 'voltar':
+        return
+    
+    for usuario in lista_usuarios:
+        if usuario['Login'] == login:
+            status_atual = usuario['Status']
+            print(f"Status atual do usuário {usuario['Nome']}: {status_atual}")
+
+            novo_status = input("Digite o novo status (Ativo/Inativo) ou deixe em branco para manter o status atual: ").strip().capitalize()
+            if novo_status not in ['Ativo', 'Inativo']:
+                print("Status inválido. Por favor, use 'Ativo' ou 'Inativo'.")
+                return
+
+            usuario['status'] = novo_status 
+            print(f"Status de {usuario['Nome']} alterado para {novo_status}.")
+            return
+        print("Usuário não encontrado.")
+        
